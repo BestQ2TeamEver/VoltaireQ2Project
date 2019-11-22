@@ -55,6 +55,7 @@ class EtudiantController extends AbstractController
 	$entityManager = $this->getDoctrine()->getManager();
 
         // $fp is file pointer to file sample.csv
+
 	if (($fp1 = fopen((__DIR__)."\\datasimple.csv", "r") && ($fp2 = fopen((__DIR__)."\\datadetail.csv","r"))) !== FALSE) {
 		while (($row = fgetcsv($fp1, 1000, ";")) !== FALSE) {
             //Only 0 .  $num = count($row);
@@ -231,18 +232,14 @@ class EtudiantController extends AbstractController
 			$rowNo++;
 		}
 		fclose($fp);
+
 		unlink((__DIR__)."\\data.csv");
 	}
 	$rowNo = 1;
 	$boolean = 0;
 	$nomcolonnes = array();
 	$info = array();
-	$time = $time+1;
-	sleep(20);
 }
-
-	
-
 	return new Response();
 	
 
@@ -260,6 +257,5 @@ class EtudiantController extends AbstractController
 	}
 			return new Response();
 	}
-
 
 }

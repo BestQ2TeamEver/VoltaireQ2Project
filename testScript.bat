@@ -1,0 +1,1 @@
+start chrome.exe https://statistiques.projet-voltaire.fr/fr/sphere/54692/detailled_statistics

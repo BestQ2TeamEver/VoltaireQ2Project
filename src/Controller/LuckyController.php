@@ -77,8 +77,6 @@ public function number()
 		fputcsv($file, $ligne);
 	}
 	fclose($file);
-
-	return new Response();
 	
 
 }

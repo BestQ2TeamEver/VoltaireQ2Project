@@ -5,42 +5,87 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * VoltaireBareme
- *
- * @ORM\Table(name="voltaire_bareme")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\VoltaireBaremeRepository")
  */
 class VoltaireBareme
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nomBareme", type="string", length=255, nullable=false)
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    private $nombareme;
+    private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="favoriBareme", type="integer", nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $favoribareme;
+    private $nomBareme;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="idBareme", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(type="integer")
      */
-    private $idbareme;
+    private $favoriBareme;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="idCritere", type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      */
-    private $idcritere;
+    private $idBareme;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $idCritere;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getNomBareme(): ?string
+    {
+        return $this->nomBareme;
+    }
+
+    public function setNomBareme(string $nomBareme): self
+    {
+        $this->nomBareme = $nomBareme;
+
+        return $this;
+    }
+
+    public function getFavoriBareme(): ?int
+    {
+        return $this->favoriBareme;
+    }
+
+    public function setFavoriBareme(int $favoriBareme): self
+    {
+        $this->favoriBareme = $favoriBareme;
+
+        return $this;
+    }
+
+    public function getIdBareme(): ?int
+    {
+        return $this->idBareme;
+    }
+
+    public function setIdBareme(int $idBareme): self
+    {
+        $this->idBareme = $idBareme;
+
+        return $this;
+    }
+
+    public function getIdCritere(): ?int
+    {
+        return $this->idCritere;
+    }
+
+    public function setIdCritere(int $idCritere): self
+    {
+        $this->idCritere = $idCritere;
+
+        return $this;
+    }
 }

@@ -5,93 +5,104 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * VoltaireEtudiant
- *
- * @ORM\Table(name="voltaire_etudiant", indexes={@ORM\Index(name="fk_loginEtu", columns={"login"}), @ORM\Index(name="fk_idBareme", columns={"idBareme"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\VoltaireEtudiantRepository")
  */
 class VoltaireEtudiant
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="idEtudiant", type="string", length=255, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    private $idetudiant;
+    private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nomEtudiant", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $nometudiant;
+    private $idEtudiant;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="prenomEtudiant", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $prenometudiant;
+    private $nomEtudiant;
 
     /**
-     * @var \VoltaireBareme
-     *
-     * @ORM\ManyToOne(targetEntity="VoltaireBareme")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idBareme", referencedColumnName="idBareme")
-     * })
+     * @ORM\Column(type="string", length=255)
      */
-    private $idbareme;
+    private $prenomEtudiant;
 
     /**
-     * @var \VoltaireUser
-     *
-     * @ORM\ManyToOne(targetEntity="VoltaireUser")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="login", referencedColumnName="login")
-     * })
+     * @ORM\Column(type="string", length=255)
      */
     private $login;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="VoltaireNiveau", inversedBy="idetudiant")
-     * @ORM\JoinTable(name="voltaire_resultat_niveau",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="idEtudiant", referencedColumnName="idEtudiant")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idNiveau", referencedColumnName="idNiveau")
-     *   }
-     * )
+     * @ORM\Column(type="integer")
      */
-    private $idniveau;
+    private $idBareme;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="VoltaireModules", inversedBy="idetudiant")
-     * @ORM\JoinTable(name="voltaire_resultats",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="idEtudiant", referencedColumnName="idEtudiant")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idModule", referencedColumnName="idModule")
-     *   }
-     * )
-     */
-    private $idmodule;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getId(): ?int
     {
-        $this->idniveau = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idmodule = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->id;
     }
 
+    public function getIdEtudiant(): ?string
+    {
+        return $this->idEtudiant;
+    }
+
+    public function setIdEtudiant(string $idEtudiant): self
+    {
+        $this->idEtudiant = $idEtudiant;
+
+        return $this;
+    }
+
+    public function getNomEtudiant(): ?string
+    {
+        return $this->nomEtudiant;
+    }
+
+    public function setNomEtudiant(string $nomEtudiant): self
+    {
+        $this->nomEtudiant = $nomEtudiant;
+
+        return $this;
+    }
+
+    public function getPrenomEtudiant(): ?string
+    {
+        return $this->prenomEtudiant;
+    }
+
+    public function setPrenomEtudiant(string $prenomEtudiant): self
+    {
+        $this->prenomEtudiant = $prenomEtudiant;
+
+        return $this;
+    }
+
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): self
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    public function getIdBareme(): ?int
+    {
+        return $this->idBareme;
+    }
+
+    public function setIdBareme(int $idBareme): self
+    {
+        $this->idBareme = $idBareme;
+
+        return $this;
+    }
 }

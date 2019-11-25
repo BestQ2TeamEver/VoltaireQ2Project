@@ -5,52 +5,104 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * VoltaireEnseignant
- *
- * @ORM\Table(name="voltaire_enseignant", indexes={@ORM\Index(name="fk_loginEnseignant", columns={"login"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\VoltaireEnseignantRepository")
  */
 class VoltaireEnseignant
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nomEnseignant", type="string", length=255, nullable=false)
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    private $nomenseignant;
+    private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="prenomEnseignant", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $prenomenseignant;
+    private $nomEnseignant;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="groupeEnseignant", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $groupeenseignant;
+    private $prenomEnseignant;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="idEnseignant", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(type="string", length=255)
      */
-    private $idenseignant;
+    private $groupeEnseignant;
 
     /**
-     * @var \VoltaireUser
-     *
-     * @ORM\ManyToOne(targetEntity="VoltaireUser")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="login", referencedColumnName="login")
-     * })
+     * @ORM\Column(type="string", length=255)
      */
     private $login;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $idEnseignant;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getNomEnseignant(): ?string
+    {
+        return $this->nomEnseignant;
+    }
+
+    public function setNomEnseignant(string $nomEnseignant): self
+    {
+        $this->nomEnseignant = $nomEnseignant;
+
+        return $this;
+    }
+
+    public function getPrenomEnseignant(): ?string
+    {
+        return $this->prenomEnseignant;
+    }
+
+    public function setPrenomEnseignant(string $prenomEnseignant): self
+    {
+        $this->prenomEnseignant = $prenomEnseignant;
+
+        return $this;
+    }
+
+    public function getGroupeEnseignant(): ?string
+    {
+        return $this->groupeEnseignant;
+    }
+
+    public function setGroupeEnseignant(string $groupeEnseignant): self
+    {
+        $this->groupeEnseignant = $groupeEnseignant;
+
+        return $this;
+    }
+
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): self
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    public function getIdEnseignant(): ?int
+    {
+        return $this->idEnseignant;
+    }
+
+    public function setIdEnseignant(int $idEnseignant): self
+    {
+        $this->idEnseignant = $idEnseignant;
+
+        return $this;
+    }
 }

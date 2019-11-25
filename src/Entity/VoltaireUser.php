@@ -5,28 +5,53 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * VoltaireUser
- *
- * @ORM\Table(name="voltaire_user")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\VoltaireUserRepository")
  */
 class VoltaireUser
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="login", type="string", length=255, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
      */
     private $login;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="mdp", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $mdp;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+
+    public function setLogin(string $login): self
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
+    public function getMdp(): ?string
+    {
+        return $this->mdp;
+    }
+
+    public function setMdp(string $mdp): self
+    {
+        $this->mdp = $mdp;
+
+        return $this;
+    }
 }

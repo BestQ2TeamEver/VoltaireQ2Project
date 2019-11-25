@@ -5,42 +5,53 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * VoltaireNiveau
- *
- * @ORM\Table(name="voltaire_niveau")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\VoltaireNiveauRepository")
  */
 class VoltaireNiveau
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="idNiveau", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    private $idniveau;
+    private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nomNiveau", type="string", length=255, nullable=false)
+     * @ORM\Column(type="integer")
      */
-    private $nomniveau;
+    private $idNiveau;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="VoltaireEtudiant", mappedBy="idniveau")
+     * @ORM\Column(type="string", length=255)
      */
-    private $idetudiant;
+    private $nomNiveau;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getId(): ?int
     {
-        $this->idetudiant = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->id;
     }
 
+    public function getIdNiveau(): ?int
+    {
+        return $this->idNiveau;
+    }
+
+    public function setIdNiveau(int $idNiveau): self
+    {
+        $this->idNiveau = $idNiveau;
+
+        return $this;
+    }
+
+    public function getNomNiveau(): ?string
+    {
+        return $this->nomNiveau;
+    }
+
+    public function setNomNiveau(string $nomNiveau): self
+    {
+        $this->nomNiveau = $nomNiveau;
+
+        return $this;
+    }
 }

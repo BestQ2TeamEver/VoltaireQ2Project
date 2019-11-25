@@ -5,49 +5,70 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * VoltaireModules
- *
- * @ORM\Table(name="voltaire_modules")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\VoltaireModulesRepository")
  */
 class VoltaireModules
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="idModule", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
-    private $idmodule;
+    private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nomModule", type="string", length=255, nullable=false)
+     * @ORM\Column(type="integer")
      */
-    private $nommodule;
+    private $idModule;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="nbReglesModule", type="integer", nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $nbreglesmodule;
+    private $nomModule;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="VoltaireEtudiant", mappedBy="idmodule")
+     * @ORM\Column(type="integer")
      */
-    private $idetudiant;
+    private $nbReglesModule;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function getId(): ?int
     {
-        $this->idetudiant = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->id;
     }
 
+    public function getIdModule(): ?int
+    {
+        return $this->idModule;
+    }
+
+    public function setIdModule(int $idModule): self
+    {
+        $this->idModule = $idModule;
+
+        return $this;
+    }
+
+    public function getNomModule(): ?string
+    {
+        return $this->nomModule;
+    }
+
+    public function setNomModule(string $nomModule): self
+    {
+        $this->nomModule = $nomModule;
+
+        return $this;
+    }
+
+    public function getNbReglesModule(): ?int
+    {
+        return $this->nbReglesModule;
+    }
+
+    public function setNbReglesModule(int $nbReglesModule): self
+    {
+        $this->nbReglesModule = $nbReglesModule;
+
+        return $this;
+    }
 }

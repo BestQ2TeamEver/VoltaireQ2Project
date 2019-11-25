@@ -27,29 +27,54 @@ class EtudiantController extends AbstractController
 //Cette fonction lit le fichier csv Complexe de base et le découpe en objet ligne corespondant aux informations des etudiants, qui sont ensuite sauvegardées dans un fichier csv (Pas vraiment fonctionnel) et sauvegardés dans la bdd.
 
 {
-	$rowNo = 1;
-	$boolean = 0;
+	$rowNo1 = 1;
+	$rowNo2 = 1;
+	$boolean1 = 0;
+	$boolean1 = 0;
 	$nomcolonnes = array();
 	$info = array();
 
-	//zone de declaration des colonnes de l'objet
-	$sphère = "";
-	$groupe = "";
-	$nom = "";
-	$prenom = "";
-	$identifiant = "";
-	$inscription = "";
-	$module = "";
-	$dernutilisation = "";
-	$tempstotal = "";
-	$usagefixe = "";
-	$usagemobile = "";
-	$scoreevalinit = "";
-	$tmpsevaluationinit = "";
-	$niveauinit = "";
-	$tmpentrainement = "";
-	$niveauatteint = "";
-	$dateCV = "";
+	//variables csv fp1(simple)
+	$sphere1 = 0;
+	$groupe1 = 1;
+	$nom1 = 2;
+	$prenom1 = 3;
+	$identifiant1 = 4;
+	$inscription1 = 5;
+	$module1 = 6;
+	$derniereutilisation1 = 7;
+	$tpsTotalpasse1 = 8;
+	$usagefixe1 = 9;
+	$usageMobile1 = 10;
+	$tempsEvaluation1 = 11;
+	$niveauInitial1 = 12;
+	$tpsEntrainement1 = 13;
+	$niveauAtteint1 = 14;
+	$dateCV = 15;
+
+	//variables csv fp2(detaille)
+	$sphere2 = 0;
+	$groupe2 = 1;
+	$nom2 = 2;
+	$prenom2 = 3;
+	$identifiant2 = 4;
+	$niveau2 = 5;
+	$derniereutilisation2 = 6;
+	$tpsTotal2 = 7;
+	$niveauAtteint2 = 8;
+	$scoreEvaluation2 = 9;
+	$noteSur202=10;
+	$parcours2 = 11
+
+	//variables imposées
+	$idEtudiant = 1;
+	$studentArray = new array();
+	$idModule = 1;
+	$moduleArray = new array();
+
+
+
+
 
 	//Variable pour communiquer avec la bdd
 	$entityManager = $this->getDoctrine()->getManager();
@@ -57,38 +82,69 @@ class EtudiantController extends AbstractController
         // $fp is file pointer to file sample.csv
 
 	if (($fp1 = fopen((__DIR__)."\\datasimple.csv", "r") && ($fp2 = fopen((__DIR__)."\\datadetail.csv","r"))) !== FALSE) {
-		while (($row = fgetcsv($fp1, 1000, ";")) !== FALSE) {
+		while (($row1 = fgetcsv($fp1, 1000, ";")) !== FALSE && ($row2 = fgetcsv($fp2, 1000, ";"))) {
             //Only 0 .  $num = count($row);
             //useless because CSV have one column and c is always only 0.  for($c=0 ; $c< $num; $c++){
-			$str = explode(";", $row[0]);
+			$str1 = explode(";", $row1[0]);
+			$str2 = explode(";", $row2[0]);
 			//explode va faire de str un array qui est row découpée: exemple 1;2;3;4;5 l'array "1","2", etc...
-			if($boolean == 0){
-				foreach ($str as $s) {// La premiere ligne contient les noms de colonnes
-					array_push($nomcolonnes,$s);
-					$boolean++;
-					
+			if(($boolean1 == 0)&&($boolean2 == 0)){
+				foreach ($str1 as $s1) {// La premiere ligne contient les noms de colonnes
+					array_push($nomcolonnes1,$s1);
+					$boolean1++;
 				}
-				$nbColonnes = count($str);
+				$nbColonnes1 = count($str1);
+				foreach ($str2 as $s2) {// La premiere ligne contient les noms de colonnes
+					array_push($nomcolonnes2,$s2);
+					$boolean2++;
+				}
+				$nbColonnes2 = count($str2);
+			}
+
+
 			}
 			else{
-				$etudiant = new Etudiant();
-				$etudiant->setGroupe($str[1]);
-				$etudiant->setIdentifiant($str[4]);
-				$etudiant->setNom($str[2]);
-				$etudiant->setPrenom($str[3]);
-				$etudiant->setSphere($str[0]);
-				$etudiant->setModule($str[6]);
-				$etudiant->setDerniereUtilisation($str[7]);
-				$etudiant->setNiveauAtteint($str[13]);
-				$etudiant->setTempsEntrainement($str[14]);
-				$etudiant->setTempsTotal($str[8]);
-				$etudiant->setInscription($str[5]);
-				$etudiant->setUsageFixe($str[9]);
-				$etudiant->setUsageMobile($str[10]);
-				$etudiant->setScoreEvalutationInitiale($str[11]);
-				$etudiant->setTempsEvaluationInitiale($str[12]);
-				$etudiant->setNiveauInitial($str[13]);
-				$etudiant->setDateCV($str[16]);
+				if(!in_array($str1[$identifiant1], $studentArray){
+					$etudiant = new VoltaireEtudiant();
+					$etudiant->setIdEtudiant($idEtudiant);
+					$etudiant->setNomEtudiant($str1[$nom1])
+					$etudiant->setPrenomEtudiant($str[$prenom1]);
+					$etudiant->setLogin($str[$identifiant1]);
+					$etudiant->setidBareme(0);
+					$entityManager->persist($etudiant);
+					array_push($studentArray, $str1[$identifiant1]);
+					$idEtudiant = $idEtudiant +1;
+				}
+				if(!in_array($str1[$module1], $moduleArray)){
+					$module = new VoltaireModules();
+					$module->setIdModule($idModule);
+					$module->setNomModule($str[$module1]);
+					$module->setNbReglesModule(0);
+					$entityManager->persist($module);
+					array_push($moduleArray, $str1[$module1]);
+					$idModule = $idModule +1 ; 
+				}
+
+				$etudiant = new VoltaireEtudiant();
+				$etudiant->setIdEtudiant($str1[$identifiant1]);
+				$etudiant->setNomEtudiant($str1[$nom1])
+				$etudiant->setPrenomEtudiant($str[$prenom1]);
+				$etudiant->setLogin($str[]);
+				$etudiant->setidBareme(0);
+
+				$niveau = new VoltaireNiveau();	
+				$niveau->setModule($str[6]);
+				$niveau->setDerniereUtilisation($str[7]);
+				$niveau->setNiveauAtteint($str[13]);
+				$niveau->setTempsEntrainement($str[14]);
+				$niveau->setTempsTotal($str[8]);
+				$niveau->setInscription($str[5]);
+				$niveau->setUsageFixe($str[9]);
+				$niveau->setUsageMobile($str[10]);
+				$niveau->setScoreEvalutationInitiale($str[11]);
+				$niveau->setTempsEvaluationInitiale($str[12]);
+				$niveau->setNiveauInitial($str[13]);
+				$niveau->setDateCV($str[16]);
 				//Dire a doctrine qu'on veut faire des actions sur cet element(sauvegarder)
 				$entityManager->persist($etudiant);
 				//Commit et push les evenements.

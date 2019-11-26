@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Etudiant;
 
-static class EtudiantController
+class EtudiantController
 {
     /**
      * @Route("/etudiant", name="etudiant")
@@ -64,13 +64,13 @@ static class EtudiantController
 	$niveauAtteint2 = 8;
 	$scoreEvaluation2 = 9;
 	$noteSur202=10;
-	$parcours2 = 11
+	$parcours2 = 11;
 
 	//variables imposées
 	$idEtudiant = 1;
-	$studentArray = new array();
+	$studentArray =array();
 	$idModule = 1;
-	$moduleArray = new array();
+	$moduleArray =array();
 
 
 
@@ -81,24 +81,24 @@ static class EtudiantController
 
         // $fp is file pointer to file sample.csv
 
-	if (($fp1 = fopen((__DIR__)."\\datasimple.csv", "r"){
-		while (($row1 = fgetcsv($fp1, 1000, ";")) !== FALSE) {
+	if ($fp1 = fopen((__DIR__)."\\datasimple.csv", "r")){
+		while ($row1 = fgetcsv($fp1, 1000, ";") !== FALSE) {
             //Only 0 .  $num = count($row);
             //useless because CSV have one column and c is always only 0.  for($c=0 ; $c< $num; $c++){
 			$str1 = explode(";", $row1[0]);
 			//explode va faire de str un array qui est row découpée: exemple 1;2;3;4;5 l'array "1","2", etc...
 			if($boolean1 == 0){
-				foreach ($str1 as $s1) {// La premiere ligne contient les noms de colonnes
+				foreach ($str1 as $s1){// La premiere ligne contient les noms de colonnes
 					array_push($nomcolonnes1,$s1);
 					$boolean1++;
 				}
 				$nbColonnes1 = count($str1);
 			}
 			else{
-				if(!in_array($str1[$identifiant1], $studentArray){
+				if(!in_array($str1[$identifiant1],$studentArray)){
 					$etudiant = new VoltaireEtudiant();
 					$etudiant->setIdEtudiant($idEtudiant);
-					$etudiant->setNomEtudiant($str1[$nom1])
+					$etudiant->setNomEtudiant($str1[$nom1]);
 					$etudiant->setPrenomEtudiant($str1[$prenom1]);
 					$etudiant->setLogin($str1[$identifiant1]);
 					$etudiant->setidBareme(0);

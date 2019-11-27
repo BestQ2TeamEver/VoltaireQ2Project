@@ -11,17 +11,12 @@ class VoltaireResultats
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $idEtudiant;
 
     /**
+     * @ORM\Id()
      * @ORM\Column(type="integer")
      */
     private $idModule;
@@ -54,7 +49,7 @@ class VoltaireResultats
     /**
      * @ORM\Column(type="integer")
      */
-    private $scoreEvaluation;
+    private $scoreEvaluationInitiale;
 
     /**
      * @ORM\Column(type="time")
@@ -170,14 +165,14 @@ class VoltaireResultats
         return $this;
     }
 
-    public function getScoreEvaluation(): ?int
+    public function getScoreEvaluationInitiale(): ?int
     {
-        return $this->scoreEvaluation;
+        return $this->scoreEvaluationInitiale;
     }
 
-    public function setScoreEvaluation(int $scoreEvaluation): self
+    public function setScoreEvaluationInitiale(int $scoreEvaluationInitiale): self
     {
-        $this->scoreEvaluation = $scoreEvaluation;
+        $this->scoreEvaluationInitiale = $scoreEvaluationInitiale;
 
         return $this;
     }

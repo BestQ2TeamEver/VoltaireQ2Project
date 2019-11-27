@@ -5,9 +5,11 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Etudiant;
+use App\Entity\VoltaireEtudiant;
+use App\Entity\VoltaireResultats;
+use App\Entity\VoltaireModules;
 
-class EtudiantController
+class EtudiantController extends AbstractController
 {
     /**
      * @Route("/etudiant", name="etudiant")
@@ -20,9 +22,76 @@ class EtudiantController
     }
 
     /**
-	* @Route("/etudiant/createbycsv")
+	* @Route("/etudiant/createModules")
 	*/
-	public function create()
+	public function createModules(){
+		//variables csv fp1(simple)
+		$sphere1 = 0;
+		$groupe1 = 1;
+		$nom1 = 2;
+		$prenom1 = 3;
+		$identifiant1 = 4;
+		$inscription1 = 5;
+		$module1 = 6;
+		$derniereutilisation1 = 7;
+		$tpsTotalpasse1 = 8;
+		$usagefixe1 = 9;
+		$usageMobile1 = 10;
+		$scoreEvaluationInitiale1 = 11;
+		$tempsEvaluation1 = 12;
+		$niveauInitial1 = 13;
+		$tpsEntrainement1 = 14;
+		$niveauAtteint1 = 15;
+		$dateCV = 16;
+		$idModule = 1;
+		$moduleArray =array();
+		$rowNo1 = 1;
+		$rowNo2 = 1;
+		$boolean1 = 0;
+		$boolean1 = 0;
+		$nomcolonnes1 = array();
+		$info1 = array();
+		//Variable pour communiquer avec la bdd
+		$entityManager = $this->getDoctrine()->getManager();
+
+		$fp1 = fopen((__DIR__)."\\simple.csv", "r");
+
+        // $fp is file pointer to file sample.csv
+
+		if ($fp1 !== FALSE){
+
+			while (($row1 = fgetcsv($fp1, 1000, ";")) !== FALSE){
+            //Only 0 .  $num = count($row);
+            //useless because CSV have one column and c is always only 0.  for($c=0 ; $c< $num; $c++){
+			//explode va faire de str un array qui est row découpée: exemple 1;2;3;4;5 l'array "1","2", etc...
+				if($boolean1 == 0){
+					foreach ($row1 as $s1){// La premiere ligne contient les noms de colonnes
+						array_push($nomcolonnes1,$s1);
+						$boolean1++;
+					}
+					$nbColonnes1 = count($row1);
+				}
+				else{
+					if(!in_array($row1[$module1], $moduleArray)){
+						$module = new VoltaireModules();
+						$module->setIdModule($idModule);
+						$module->setNomModule($row1[$module1]);
+						$module->setNbReglesModule(0);
+						$entityManager->persist($module);
+						array_push($moduleArray, $row1[$module1]);
+						$idModule = $idModule +1 ;
+					}
+				}
+			}
+		$entityManager->flush();
+		}
+		return new Response();
+	}
+
+	/**
+	 * @Route("/etudiant/createEtudiants")
+	 */
+	public function createEtudiants()
 
 //Cette fonction lit le fichier csv Complexe de base et le découpe en objet ligne corespondant aux informations des etudiants, qui sont ensuite sauvegardées dans un fichier csv (Pas vraiment fonctionnel) et sauvegardés dans la bdd.
 
@@ -31,8 +100,8 @@ class EtudiantController
 	$rowNo2 = 1;
 	$boolean1 = 0;
 	$boolean1 = 0;
-	$nomcolonnes = array();
-	$info = array();
+	$nomcolonnes1 = array();
+	$info1 = array();
 
 	//variables csv fp1(simple)
 	$sphere1 = 0;
@@ -46,11 +115,12 @@ class EtudiantController
 	$tpsTotalpasse1 = 8;
 	$usagefixe1 = 9;
 	$usageMobile1 = 10;
-	$tempsEvaluation1 = 11;
-	$niveauInitial1 = 12;
-	$tpsEntrainement1 = 13;
-	$niveauAtteint1 = 14;
-	$dateCV = 15;
+	$scoreEvaluationInitiale1 = 11;
+	$tempsEvaluation1 = 12;
+	$niveauInitial1 = 13;
+	$tpsEntrainement1 = 14;
+	$niveauAtteint1 = 15;
+	$dateCV = 16;
 
 	//variables csv fp2(detaille)
 	$sphere2 = 0;
@@ -68,89 +138,172 @@ class EtudiantController
 
 	//variables imposées
 	$idEtudiant = 1;
-	$studentArray =array();
-	$idModule = 1;
-	$moduleArray =array();
-
-
-
-
+	$studentArray = array();
 
 	//Variable pour communiquer avec la bdd
 	$entityManager = $this->getDoctrine()->getManager();
-
-        // $fp is file pointer to file sample.csv
-
-	if ($fp1 = fopen((__DIR__)."\\datasimple.csv", "r")){
-		while ($row1 = fgetcsv($fp1, 1000, ";") !== FALSE) {
+	$fp1 = fopen((__DIR__)."\\simple.csv", "r");
+   // $fp is file pointer to file sample.csv
+	if ($fp1 !== FALSE){
+		while (($row1 = fgetcsv($fp1, 1000, ";")) !== FALSE){
             //Only 0 .  $num = count($row);
             //useless because CSV have one column and c is always only 0.  for($c=0 ; $c< $num; $c++){
-			$str1 = explode(";", $row1[0]);
 			//explode va faire de str un array qui est row découpée: exemple 1;2;3;4;5 l'array "1","2", etc...
 			if($boolean1 == 0){
-				foreach ($str1 as $s1){// La premiere ligne contient les noms de colonnes
+				foreach ($row1 as $s1){// La premiere ligne contient les noms de colonnes
 					array_push($nomcolonnes1,$s1);
 					$boolean1++;
 				}
-				$nbColonnes1 = count($str1);
+				$nbColonnes1 = count($row1);
 			}
+
 			else{
-				if(!in_array($str1[$identifiant1],$studentArray)){
+				if(!in_array($row1[$identifiant1],$studentArray)){
 					$etudiant = new VoltaireEtudiant();
-					$etudiant->setIdEtudiant($idEtudiant);
-					$etudiant->setNomEtudiant($str1[$nom1]);
-					$etudiant->setPrenomEtudiant($str1[$prenom1]);
-					$etudiant->setLogin($str1[$identifiant1]);
+					$etudiant->setNomEtudiant($row1[$nom1]);
+					$etudiant->setPrenomEtudiant($row1[$prenom1]);
+					$etudiant->setLogin($row1[$identifiant1]);
 					$etudiant->setidBareme(0);
 					$entityManager->persist($etudiant);
-					array_push($studentArray, $str1[$identifiant1]);
-					$idEtudiant = $idEtudiant +1;
+					array_push($studentArray, $row1[$identifiant1]);
 				}
-				if(!in_array($str1[$module1], $moduleArray)){
-					$module = new VoltaireModules();
-					$module->setIdModule($idModule);
-					$module->setNomModule($str1[$module1]);
-					$module->setNbReglesModule(0);
-					$entityManager->persist($module);
-					array_push($moduleArray, $str1[$module1]);
-					$idModule = $idModule +1 ; 
-				}
-
-				$resultat = new VoltaireResultats();	
-				$resultat->setidEtudiant($str1[$identifiant1]);
-				$resultat->setDerniereUtilisation($str1[$derniereutilisation1]);
-				$resultat->setNiveauAtteint($str1[$module]);
-				$resultat->setTpsEntrainement($str1[$tpsEntrainement1]);
-				$resultat->setTpsTotal($str1[$tpsTotalpasse1]);
-				$resultat->setInscription($str1[$inscription1]);
-				$resultat->setUsageFixe($str1[$usagefixe1]);
-				$resultat->setUsageMobile($str1[$usageMobile1]);
-				$resultat->setScoreEvalutationInitiale($str1[$niveauInitial1]);
-				$resultat->setTpsEvaluationInitiale($str1[$tempsEvaluation1]);
-				$resultat->setNiveauInitial($str1[$niveauInitial1]);
-				$resultat->setDateCV($str1[$dateCV]);
-				//Dire a doctrine qu'on veut faire des actions sur cet element(sauvegarder)
-				$entityManager->persist($resultat);
-				//Commit et push les evenements.
-				$entityManager->flush();
-
 			}
-			
-			$rowNo++;
+			$rowNo1++;
 		}
-		fclose($fp);
-		echo($rowNo);
+	$entityManager->flush();
+	fclose($fp1);
 	}
 	
 
 	return new Response();
 	
+}
 
+    /**
+	* @Route("/etudiant/createResultats")
+	*/
+	public function createResultats()
+
+//Cette fonction lit le fichier csv Complexe de base et le découpe en objet ligne corespondant aux informations des etudiants, qui sont ensuite sauvegardées dans un fichier csv (Pas vraiment fonctionnel) et sauvegardés dans la bdd.
+
+{
+	$rowNo1 = 1;
+	$rowNo2 = 1;
+	$boolean1 = 0;
+	$boolean1 = 0;
+	$nomcolonnes1 = array();
+	$info1 = array();
+	//variables csv fp1(simple)
+	$sphere1 = 0;
+	$groupe1 = 1;
+	$nom1 = 2;
+	$prenom1 = 3;
+	$identifiant1 = 4;
+	$inscription1 = 5;
+	$module1 = 6;
+	$derniereutilisation1 = 7;
+	$tpsTotalpasse1 = 8;
+	$usagefixe1 = 9;
+	$usageMobile1 = 10;
+	$scoreEvaluationInitiale1 = 11;
+	$tempsEvaluation1 = 12;
+	$niveauInitial1 = 13;
+	$tpsEntrainement1 = 14;
+	$niveauAtteint1 = 15;
+	$dateCV = 16;
+	//variables csv fp2(detaille)
+	$sphere2 = 0;
+	$groupe2 = 1;
+	$nom2 = 2;
+	$prenom2 = 3;
+	$identifiant2 = 4;
+	$niveau2 = 5;
+	$derniereutilisation2 = 6;
+	$tpsTotal2 = 7;
+	$niveauAtteint2 = 8;
+	$scoreEvaluation2 = 9;
+	$noteSur202=10;
+	$parcours2 = 11;
+	//variables imposées
+	$idEtudiant = 1;
+	$studentArray = array();
+
+	//Variable pour communiquer avec la bdd
+	$entityManager = $this->getDoctrine()->getManager();
+
+	$fp1 = fopen((__DIR__)."\\simple.csv", "r");
+
+        // $fp is file pointer to file sample.csv
+
+	if ($fp1 !== FALSE){
+		while (($row1 = fgetcsv($fp1, 1000, ";")) !== FALSE){
+            //Only 0 .  $num = count($row);
+            //useless because CSV have one column and c is always only 0.  for($c=0 ; $c< $num; $c++){
+			//explode va faire de str un array qui est row découpée: exemple 1;2;3;4;5 l'array "1","2", etc...
+			if($boolean1 == 0){
+				foreach ($row1 as $s1){// La premiere ligne contient les noms de colonnes
+					array_push($nomcolonnes1,$s1);
+					$boolean1++;
+				}
+				$nbColonnes1 = count($row1);
+			}
+
+			else{
+				$module = $entityManager->getRepository(VoltaireModules::Class)->findBy(["nomModule" => $row1[$module1]]);
+				$resultat = new VoltaireResultats();	
+				$resultat->setidEtudiant($row1[$identifiant1]);
+				$resultat->setIdModule($module[0]->getIdModule());
+				if(strcmp($row1[$derniereutilisation1],' ')){$resultat->setDerniereUtilisation(date_create_from_format("j/m/Y","0/0/0"));}
+				else{$resultat->setDerniereUtilisation(date_create_from_format("j/m/Y",$row1[$derniereutilisation1]));}
+				$resultat->setNiveauAtteint(intval($row1[$module1]));
+				$resultat->setTpsEntrainement(date_create($row1[$tpsEntrainement1]));
+				$resultat->setTpsTotal(date_create($row1[$tpsTotalpasse1]));
+				$resultat->setInscription(date_create_from_format("j/m/Y",($row1[$inscription1])));
+				$resultat->setUsageFixe(intval($row1[$usagefixe1]));
+				$resultat->setUsageMobile(intval($row1[$usageMobile1]));
+				$resultat->setScoreEvaluationInitiale(intval($row1[$scoreEvaluationInitiale1]));
+				$resultat->setTpsEvaluationInitiale(date_create($row1[$tempsEvaluation1]));
+				$resultat->setNiveauInitial(intval($row1[$niveauInitial1]));
+				if(strcmp($row1[$dateCV],' ')){$resultat->setDateCV(date_create_from_format("j/m/Y","0/0/0"));}
+				else{$resultat->setDateCV(date_create_from_format("j/m/Y",$row1[$dateCV]));}
+				//Dire a doctrine qu'on veut faire des actions sur cet element(sauvegarder)
+				$entityManager->persist($resultat);
+				//Commit et push les evenements.
+				
+
+			}
+			
+			$rowNo1++;
+		}
+		$entityManager->flush();
+		fclose($fp1);
+	}
+	
+
+	return new Response();
+	
+}
+
+
+    /**
+	* @Route("/etudiant/createbycsv")
+	*/
+	public function createByCSV()
+
+//Cette fonction lit le fichier csv Complexe de base et le découpe en objet ligne corespondant aux informations des etudiants, qui sont ensuite sauvegardées dans un fichier csv (Pas vraiment fonctionnel) et sauvegardés dans la bdd.
+
+{
+	EtudiantController::createModules();
+	EtudiantController::createEtudiants();
+	EtudiantController::createResultats();
+
+	return new Response();
+	
 }
 /**
 	* @Route("/etudiant/refreshbycsv")
 	*/
-	public function refresh()
+/**	public function refresh()
 
 //Cette fonction lit le fichier csv Complexe de base et le découpe en objet ligne corespondant aux informations des etudiants, qui sont ensuite sauvegardées dans un fichier csv (Pas vraiment fonctionnel) et sauvegardés dans la bdd.
 
@@ -284,6 +437,7 @@ class EtudiantController
 	
 
 }
+**/
 /**
 	* @Route("/etudiant/createBareme")
 	*/

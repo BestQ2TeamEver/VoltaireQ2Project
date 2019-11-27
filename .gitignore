@@ -17,3 +17,5 @@
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
+testScript.bat
+templates/etudiant/index.html.twig

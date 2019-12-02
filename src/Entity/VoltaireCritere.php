@@ -10,26 +10,19 @@ use Doctrine\ORM\Mapping as ORM;
 class VoltaireCritere
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
     private $progression;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
     private $tpsUtilisation;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
-    private $niveauInitial;
+    private $niveauAtteint;
 
     /**
      * @ORM\Column(type="integer")
@@ -37,47 +30,44 @@ class VoltaireCritere
     private $evaluationFinale;
 
     /**
+     * @ORM\GeneratedValue()
+     * @ORM\Id()
      * @ORM\Column(type="integer")
      */
     private $idCritere;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getProgression(): ?int
+    public function getProgression(): ?string
     {
         return $this->progression;
     }
 
-    public function setProgression(int $progression): self
+    public function setProgression(string $progression): self
     {
         $this->progression = $progression;
 
         return $this;
     }
 
-    public function getTpsUtilisation(): ?int
+    public function getTpsUtilisation(): ?string
     {
         return $this->tpsUtilisation;
     }
 
-    public function setTpsUtilisation(int $tpsUtilisation): self
+    public function setTpsUtilisation(string $tpsUtilisation): self
     {
         $this->tpsUtilisation = $tpsUtilisation;
 
         return $this;
     }
 
-    public function getNiveauInitial(): ?int
+    public function getNiveauAtteint(): ?string
     {
-        return $this->niveauInitial;
+        return $this->niveauAtteint;
     }
 
-    public function setNiveauInitial(int $niveauInitial): self
+    public function setNiveauAtteint(string $niveauAtteint): self
     {
-        $this->niveauInitial = $niveauInitial;
+        $this->niveauAtteint = $niveauAtteint;
 
         return $this;
     }

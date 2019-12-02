@@ -29,11 +29,6 @@ class VoltaireBareme
     /**
      * @ORM\Column(type="integer")
      */
-    private $idBareme;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
     private $idCritere;
 
     public function getId(): ?int
@@ -64,19 +59,7 @@ class VoltaireBareme
 
         return $this;
     }
-
-    public function getIdBareme(): ?int
-    {
-        return $this->idBareme;
-    }
-
-    public function setIdBareme(int $idBareme): self
-    {
-        $this->idBareme = $idBareme;
-
-        return $this;
-    }
-
+    
     public function getIdCritere(): ?int
     {
         return $this->idCritere;

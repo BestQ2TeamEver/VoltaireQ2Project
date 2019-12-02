@@ -9,12 +9,39 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href = "http://localhost:8000/bareme/creerbareme"> Créer un barème </a>
+    <a href = "http://localhost:8000/etudiant/uploadCSV"> Uploader un fichier csv </a>
+    {% endif %}
+    <a href = "http://localhost:8000/etudiant"> Retourner sur la page d'accueil </a>
+    <h1> Bienvenu sur le site du VoltaireQ2Project ! {% if is_granted('ROLE_ADMIN') %} </h1> {% endif %}{% for etudiant in etudiants %}
+    {% if etudiant.login == user.login %}
+    {{etudiant.nomEtudiant}} {{etudiant.prenomEtudiant}}</h1>
+    {% endif %}
+    {% endfor %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/rcada/OneDrive/Bureau/VoltaireQ2Project/VoltaireQ2Project/src/Controller/EtudiantController.php'|file_link(0) }}">src/Controller/EtudiantController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/rcada/OneDrive/Bureau/VoltaireQ2Project/VoltaireQ2Project/templates/etudiant/index.html.twig'|file_link(0) }}">templates/etudiant/index.html.twig</a></code></li>
-    </ul>
+    {% if is_granted('ROLE_ADMIN') %}
+    <p> Voici la liste des étudiants disponibles sur notre base de donnée , il y en a {{etudiants|length}} : </p>
+    <table>
+    	<tr>
+    		<th> Nom Etudiant </th>
+    		<th> Prenom Etudiant </th>
+    		<th> Identifiant Etudiant </th>
+    	</tr>
+    	{% for etudiant in etudiants |sort %}
+    	<tr> <th>{{ etudiant.nomEtudiant }}</th> <th>{{ etudiant.prenomEtudiant }}</th> <th> <a href = "http://localhost:8000/etudiant/noterEtudiant/{{etudiant.login}}" >{{ etudiant.login }} </a></th></tr>
+     
+ {% endfor %}
+</table>
+{% endif %}
+
+    {% if is_granted('ROLE_USER') %}
+    <p> Vous pouvez consulter vos données du projet Voltaire en cliquant ici : </p> <a href="http://localhost:8000/etudiant/noterEtudiant/{{user.login}}"> accéder à mes données </a>
+
+{% endif %}
+
+    
+
+
 </div>
 {% endblock %}

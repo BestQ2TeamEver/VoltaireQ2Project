@@ -11,18 +11,13 @@ class VoltaireResultatNiveau
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $idEtudiant;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Id()
+     * @ORM\Column(type="string", length=255)
      */
     private $idNiveau;
 
@@ -68,12 +63,12 @@ class VoltaireResultatNiveau
         return $this;
     }
 
-    public function getIdNiveau(): ?int
+    public function getIdNiveau(): ?string
     {
         return $this->idNiveau;
     }
 
-    public function setIdNiveau(int $idNiveau): self
+    public function setIdNiveau(string $idNiveau): self
     {
         $this->idNiveau = $idNiveau;
 

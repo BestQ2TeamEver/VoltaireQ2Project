@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Information sur l'étudiant {{ etudiant.nomEtudiant }} {{etudiant.prenomEtudiant}}!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+	<a href = "http://localhost:8000/etudiant"> Retourner sur la page d'accueil </a>
+	{% if is_granted('ROLE_ADMIN') %}
+	 <h1> Etudiant {{ etudiant.nomEtudiant }} {{etudiant.prenomEtudiant}} : </h1>
+    <p> L'étudiant {{etudiant.nomEtudiant}} {{etudiant.prenomEtudiant}} à passé {{tps}} sur le site du projet Voltaire, il a eu {{resultat.scoreEvaluationInitiale}}% à l'examen initial. Il est donc noté avec le bareme "{{bareme.nomBareme}}". Sa note globale s'éleve à {{notetotale}} avec : <br> <ul> <li> {% if noterResultatFinal %} {{pointProgression}} points pour la progression {% endif %} {% if noterResultatFinal == 0 %} {{pointProgression}} points pour la progression , l'étudiant n'a pas encore passé le test final. {% endif %}</li> <li> {{pointNiveau}} points pour le nombre de niveaux acquis avec {{ niveauatteint }} niveaux validés</li> <li> {{pointUtilisation}} points pour le temps passé sur le site. 
+    <br><br>
+    Voulez vous noter cet étudiant avec un autre barème? 
+    <form action="http://localhost:8000/etudiant/changerBareme/{{etudiant.login}}">
+  		<select name="nomBareme">
+  			{% for bareme in allbareme %}
+    	<option value="{{bareme.nomBareme}}">{{bareme.nomBareme}}</option>
+    	{% endfor %}
+  		</select>
+  	<br><br>
+  	<input type="submit">
+  </form>
+  {% endif %}
+  {% if is_granted('ROLE_USER') %}
+  	{% if user.Login == etudiant.login %}
+  	<h1> Etudiant {{ etudiant.nomEtudiant }} {{etudiant.prenomEtudiant}} : </h1>
+  	<p> L'étudiant {{etudiant.nomEtudiant}} {{etudiant.prenomEtudiant}} à passé {{tps}} sur le site du projet Voltaire, il a eu {{resultat.scoreEvaluationInitiale}}% à l'examen initial. Il est donc noté avec le bareme "{{bareme.nomBareme}}".<br> <ul> <li> {% if noterResultatFinal %} L'Etudiant a effectué le test final {% endif %} {% if noterResultatFinal == 0 %} L'étudiant n'a pas encore passé le test final. {% endif %}</li> <li> L'Etudiant a validé {{ niveauatteint }} niveaux </li> <li> Il a passé {{tps}} sur le site du projet voltaire
+  	<br><br>
+  {% endif %}
+  {% if user.Login != etudiant.login %}
+  	{% if is_granted('ROLE_USER') %}
+  		{% if not is_granted('ROLE_ADMIN') %}
+  		<p> Il y a un problème, il semble que vous ne soyez pas sur votre page personnelle. Retournez à votre </p> <a href="http://localhost:8000/etudiant/noterEtudiant/{{user.login}}"> page personnelle </a>
+  		{% endif %}
+  	{% endif %}
+  	
+  	{% endif %}
+  	{% endif %}
+
+
+    
+</div>
+{% endblock %}

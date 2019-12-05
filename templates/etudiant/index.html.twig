@@ -13,6 +13,7 @@
     <a href = "http://localhost:8000/bareme/creerbareme"> Créer un barème </a>
     <a href = "http://localhost:8000/etudiant/uploadCSV"> Uploader un fichier csv </a>
     {% endif %}
+    <a href = "http://localhost:8000/logout">Se déconnecter</a>
     <a href = "http://localhost:8000/etudiant"> Retourner sur la page d'accueil </a>
     <h1> Bienvenu sur le site du VoltaireQ2Project ! {% if is_granted('ROLE_ADMIN') %} </h1> {% endif %}{% for etudiant in etudiants %}
     {% if etudiant.login == user.login %}

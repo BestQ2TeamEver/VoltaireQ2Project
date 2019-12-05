@@ -12,6 +12,7 @@ use App\Entity\VoltaireNiveau;
 use App\Entity\VoltaireResultatNiveau;
 use App\Entity\VoltaireBareme;
 use App\Entity\VoltaireCritere;
+use App\Entity\User;
 
 
 class EtudiantController extends AbstractController
@@ -31,6 +32,24 @@ class EtudiantController extends AbstractController
             'user' => $user
         ]);
     }
+
+    /**
+     * @Route("/etudiant/createAllUsers", name="créer tous les utilisateurs")
+     */
+    public function createAllUsers()
+    {
+    	$entityManager = $this->getDoctrine()->getManager();
+        $etudiants = $this->getDoctrine()->getRepository(VoltaireEtudiant::class)->findAll();
+        foreach ($etudiants as $etudiant) {
+        	$user = new User();
+        	$user->setLogin($etudiant->getLogin());
+        	$user->setPassword("\$argon2id\$v=19\$m=65536,t=4,p=1\$Y0FtdmYwMFN3SUpvTks3eg\$pqoDW8L3ClYYkTB7HQ3PPY8AhSp8LkFcfdfpaPA6vTc");
+        	$entityManager->persist($user);
+        }
+        $entityManager->flush();
+        return new Response();
+    }
+
 
      /**
      * @Route("/etudiant/show/{id}", methods={"GET","HEAD"})

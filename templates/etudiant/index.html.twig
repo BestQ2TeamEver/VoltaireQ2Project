@@ -10,15 +10,24 @@
 
 <div class="example-wrapper">
     {% if is_granted('ROLE_ADMIN') %}
-    <a href = "http://localhost:8000/bareme/creerbareme"> Créer un barème </a>
-    <a href = "http://localhost:8000/etudiant/uploadCSV"> Uploader un fichier csv </a>
+    <a href = "http://localhost:8000/bareme/creerbareme"> Créer un barème    </a>
+    <a href = "http://localhost:8000/etudiant/uploadCSV"> Uploader un fichier csv    </a>
+    <a href = "http://localhost:8000/etudiant/generateCSV"> Exporter les notes    </a>
+    {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    <a href = "http://localhost:8000/logout"> Se déconnecter</a>
+    {% else %}
+    <a href = "http://localhost:8000/login"> Se connecter</a>
     {% endif %}
     <a href = "http://localhost:8000/etudiant"> Retourner sur la page d'accueil </a>
-    <h1> Bienvenu sur le site du VoltaireQ2Project ! {% if is_granted('ROLE_ADMIN') %} </h1> {% endif %}{% for etudiant in etudiants %}
+    <h1> Bienvenu sur le site du VoltaireQ2Project ! {% if is_granted('ROLE_USER') %}{% if is_granted('ROLE_ADMIN') %}  {{user.login}} ! </h1> {% else %}
+    {% for etudiant in etudiants %}
     {% if etudiant.login == user.login %}
     {{etudiant.nomEtudiant}} {{etudiant.prenomEtudiant}}</h1>
     {% endif %}
     {% endfor %}
+    {% endif %}
+    {% endif %}
 
     {% if is_granted('ROLE_ADMIN') %}
     <p> Voici la liste des étudiants disponibles sur notre base de donnée , il y en a {{etudiants|length}} : </p>
@@ -33,10 +42,12 @@
      
  {% endfor %}
 </table>
-{% endif %}
+{% elseif is_granted('ROLE_USER') %}
 
-    {% if is_granted('ROLE_USER') %}
     <p> Vous pouvez consulter vos données du projet Voltaire en cliquant ici : </p> <a href="http://localhost:8000/etudiant/noterEtudiant/{{user.login}}"> accéder à mes données </a>
+
+{% else %}
+</h1><p> Vous n'êtes pas connecté ! cliquez ici pour vous connecter : </p> <a href="http://localhost:8000/login"> Se connecter </a>
 
 {% endif %}
 
